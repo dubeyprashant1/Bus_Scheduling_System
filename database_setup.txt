@@ -1,0 +1,79 @@
+-- Step 1: To Create database
+Create database bus_scheduling;
+
+-- Step 2: Use bus_scheduling database
+USE bus_scheduling;
+
+-- Step 3: Create the admin table
+CREATE TABLE admin (
+    id int NOT NULL AUTO_INCREMENT,
+    first_name varchar(100) DEFAULT NULL,
+    mid_name varchar(100) DEFAULT NULL,
+    last_name varchar(100) DEFAULT NULL,
+    email varchar(100) DEFAULT NULL,
+    admin_id varchar(100) DEFAULT NULL,
+    phone_number varchar(15) DEFAULT NULL,
+    age int DEFAULT NULL,
+    gender varchar(20) DEFAULT NULL,
+    security_question varchar(255) DEFAULT NULL,
+    security_answer varchar(255) DEFAULT NULL,
+    password varchar(255) DEFAULT NULL,
+    PRIMARY KEY (id)
+) ;
+
+-- Step 4: Create the traveler table
+CREATE TABLE traveler (
+    id int NOT NULL AUTO_INCREMENT,
+    first_name varchar(100) DEFAULT NULL,
+    mid_name varchar(100) DEFAULT NULL,
+    last_name varchar(100) DEFAULT NULL,
+    email varchar(100) DEFAULT NULL,
+    traveler_id varchar(100) DEFAULT NULL,
+    phone_number varchar(15) DEFAULT NULL,
+    age int DEFAULT NULL,
+    gender varchar(20) DEFAULT NULL,
+    security_question varchar(255) DEFAULT NULL,
+    security_answer varchar(255) DEFAULT NULL,
+    password varchar(255) DEFAULT NULL,
+    PRIMARY KEY (id)
+) ;
+
+-- Step 5: Create the crews table
+CREATE TABLE crews (
+    crew_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    phone_number VARCHAR(15) NOT NULL,
+    on_duty BOOLEAN DEFAULT 0, -- 1 if assigned to a bus, otherwise 0
+    assigned_bus INT, -- References bus_id from buses table
+    last_assignment_time DATETIME, -- Timestamp of the last assignment to calculate rest time
+    accept_count INT DEFAULT 0, -- Number of accepted assignments
+    reject_count INT DEFAULT 0, -- Number of rejected assignments
+    emergency_count INT DEFAULT 0, -- Number of emergency assignments attended
+    total_proposals INT DEFAULT 0, -- Calculated column for total assignment proposals
+    daily_assignment_limit INT DEFAULT 5 -- Max assignments allowed per day
+);
+
+-- Step 6: Create the buses table
+CREATE TABLE buses (
+    bus_id INT AUTO_INCREMENT PRIMARY KEY,
+    route VARCHAR(50) NOT NULL,
+    on_road BOOLEAN DEFAULT 0, -- 1 if the bus is currently on the road, otherwise 0
+    assigned_crew INT, -- References crew_id from crews table
+    next_departure TIME, -- Time of the next scheduled departure
+    arrival_time TIME, -- Expected arrival time at the destination
+    schedule JSON, -- JSON object to store multiple trip times for the day
+    FOREIGN KEY (assigned_crew) REFERENCES crews(crew_id) ON DELETE SET NULL
+);
+
+-- Step 7: Create the assignments table
+CREATE TABLE assignments (
+    assignment_id INT AUTO_INCREMENT PRIMARY KEY,
+    bus_id INT NOT NULL, -- References bus_id from buses table
+    crew_id INT NOT NULL, -- References crew_id from crews table
+    assignment_time DATETIME DEFAULT CURRENT_TIMESTAMP, -- Timestamp when assignment is created
+    accepted BOOLEAN, -- 1 if crew accepts, 0 if rejects
+    is_emergency BOOLEAN DEFAULT 0, -- 1 if this is an emergency assignment
+    scheduling_type VARCHAR(45), -- to store type of scheduling (Linked/Unlinked)
+    FOREIGN KEY (bus_id) REFERENCES buses(bus_id) ON DELETE CASCADE,
+    FOREIGN KEY (crew_id) REFERENCES crews(crew_id) ON DELETE CASCADE
+);
