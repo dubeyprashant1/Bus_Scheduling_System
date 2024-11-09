@@ -19,16 +19,16 @@ Data Storage: JSON (for bus schedule)
 Other: RESTful API, SQL queries, datetime manipulation for time validation
 
 # Key Database Tables
-admins: manages manual assigning of crews to buses and their info - for login and signup purpose.
-traveller: which regularly use application to locate real time location of bus and plan their journey - for login and signup purpose.
-crews: Stores crew details, including last assignment time, assignment limits, and other relevant information.
-buses: Stores bus details, including route, crew assignments, and schedule information.
-assignments: Tracks the assignments of crew members to buses.
+1. admins: manages manual assigning of crews to buses and their info - for login and signup purpose.
+2. traveller: which regularly use application to locate real time location of bus and plan their journey - for login and signup purpose.
+3. crews: Stores crew details, including last assignment time, assignment limits, and other relevant information.
+4. buses: Stores bus details, including route, crew assignments, and schedule information.
+5. assignments: Tracks the assignments of crew members to buses.
 
 # Key Features in Detail:
-Crew Validation: Ensures crews have at least 30 minutes of rest time before being assigned a new duty. If a crew member has reached the daily assignment limit (5), they cannot be scheduled for more assignments.
-Bus Assignment Validation: Checks if a bus or crew is already assigned before adding a new assignment.
-Emergency Assignments: If a crew member is scheduled for an emergency, the system automatically updates the emergency count and relevant assignments.
-Route Management: Each bus is linked to a specific route, and the bus's schedule is updated accordingly when new assignments are made.
+1. Crew Validation: Ensures crews have at least 30 minutes of rest time before being assigned a new duty. If a crew member has reached the daily assignment limit (5), they 2. cannot be scheduled for more assignments.
+3. Bus Assignment Validation: Checks if a bus or crew is already assigned before adding a new assignment.
+4. Emergency Assignments: If a crew member is scheduled for an emergency, the system automatically updates the emergency count and relevant assignments.
+5. Route Management: Each bus is linked to a specific route, and the bus's schedule is updated accordingly when new assignments are made.
 
 
