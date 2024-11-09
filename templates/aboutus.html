@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <title>About Us | Automated Bus Routing & Scheduling System</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Style matching the provided theme */
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #d1d1dd;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding-top: 60px;
+        }
+
+        .about-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+            flex: 1;
+        }
+
+        nav {
+            background-color: #08423c;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        nav .left-nav,
+        nav .right-nav {
+            display: flex;
+            align-items: center;
+        }
+
+        nav .left-nav {
+            margin-right: auto;
+        }
+
+        nav .right-nav {
+            margin-left: auto;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav li {
+            margin: 0 10px;
+            font-weight: bold;
+            position: relative;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        header {
+            text-align: center;
+            color: #08423c;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            color: #000000;
+            -webkit-text-stroke: 0.5px #0f875f;
+            text-shadow: 1px 1px 1px;
+            margin-bottom: 20px;
+        }
+
+        .index-link {
+            color: #000000;
+            text-decoration: none;
+            background-color: #189168;
+            padding: 8px 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+
+        .index-link:hover {
+            background-color: #16694d;
+        }
+
+        main section {
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            color: #333;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        main section h2 {
+            font-size: 2em;
+            color: black;
+            font-weight: 700;
+            -webkit-text-stroke: 0.5px #0f875f;
+            text-shadow: 1px 1px 1px;
+            margin-bottom: 10px;
+        }
+
+        main section p, main section ul {
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .sec:hover {
+            transform: scale(1.05); /* Slightly scale up on hover */
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add shadow on hover */
+        }
+
+        footer {
+            background-color: #189168;
+            color: black;
+            font-weight:bold;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="left-nav">
+            <ul>
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('contact') }}">Contact</a></li>
+            </ul>
+        </div>
+        <div class="right-nav">
+            <ul>
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="about-container">
+        <header>
+            <h1>About the Automated Bus Routing & Scheduling System</h1>
+        </header>
+
+        <!-- Main Content Section -->
+        <main>
+            <section class="sec">
+                <h2>System Overview</h2>
+                <p>The Automated Bus Scheduling and Route Management System is an advanced tool developed to streamline and optimize the operations of the Delhi Transport Corporation (DTC). By combining the power of Geographic Information Systems (GIS), real-time data analytics, and machine learning algorithms, the system aims to improve the overall efficiency of the public transport system, ensuring timely bus schedules, optimized routes, and a better user experience for commuters.</p>
+                <p>In the world of urban mobility, traffic congestion, inefficient scheduling, and poorly managed routes are some of the significant challenges that hinder the overall efficiency of public transport. Our solution is designed to tackle these challenges head-on, providing a reliable, cost-effective, and scalable system that can adapt to the dynamic nature of urban transport.</p>
+                <p>Key features include:</p>
+                <ul>
+                    <li><strong>Linked Duty Scheduling:</strong> Ensures crew assignments stay consistent for shifts, improving accountability and reducing the possibility of errors in scheduling.</li>
+                    <li><strong>Unlinked Duty Scheduling:</strong> Allows crews to change shifts efficiently while managing rest periods, handling reassignments, and ensuring compliance with labor regulations.</li>
+                    <li><strong>Route Management:</strong> Provides an interactive map that helps managers visualize routes, manage bus assignments, and plan new routes with minimal overlaps, ensuring more effective coverage and reduced delays.</li>
+                </ul>
+            </section>
+
+            <section class="sec">
+                <h2>System Architecture</h2>
+                <p>The core architecture of the system is built with scalability and flexibility in mind. It integrates multiple components to ensure seamless operation and user experience:</p>
+                <ul>
+                    <li><strong>Real-Time Data Integration:</strong> The system integrates real-time data from various sources such as traffic sensors, GPS on buses, and road conditions to provide dynamic and up-to-date scheduling.</li>
+                    <li><strong>Data Analytics and Optimization Algorithms:</strong> Machine learning models are employed to analyze traffic patterns, bus load, and other real-time factors to optimize bus routes and reduce congestion during peak hours.</li>
+                    <li><strong>GIS Integration:</strong> GIS technology plays a crucial role in route management, providing detailed visual maps that help in planning, managing, and optimizing routes. It also ensures that buses avoid traffic hotspots and reach their destinations faster.</li>
+                    <li><strong>User-Friendly Dashboard:</strong> A simple yet powerful user interface designed for bus schedulers, managers, and transport operators, offering a clear overview of the system's status, including real-time location tracking, scheduling data, and performance analytics.</li>
+                </ul>
+            </section>
+
+            <section class="sec">
+                <h2>Key Features</h2>
+                <ul>
+                    <li><strong>Real-Time Bus Tracking:</strong> Bus locations are tracked in real-time using GPS data, enabling passengers and operators to track buses' locations for efficient trip planning.</li>
+                    <li><strong>Optimized Route Planning:</strong> Using AI-driven algorithms, the system dynamically adjusts bus routes based on traffic, road conditions, and historical data to ensure minimal delays.</li>
+                    <li><strong>Automated Duty Scheduling:</strong> The system automatically schedules bus drivers' shifts, reducing the chances of human error and ensuring compliance with regulations.</li>
+                    <li><strong>Data-Driven Decision Making:</strong> The system leverages advanced analytics to provide actionable insights, allowing transport managers to make informed decisions regarding route adjustments, scheduling changes, and resource allocation.</li>
+                    <li><strong>Improved Congestion Management:</strong> By dynamically adjusting bus frequencies and optimizing routes, the system helps reduce traffic congestion and improves travel times for passengers.</li>
+                </ul>
+            </section>
+
+            <section class="sec">
+                <h2>Why It Matters</h2>
+                <p>As urbanization continues to increase, the pressure on public transportation systems to provide efficient, cost-effective, and sustainable services grows. The Automated Bus Routing & Scheduling System is designed to address these challenges by incorporating advanced technologies into the daily operations of the DTC. Here’s why it matters:</p>
+                <ul>
+                    <li><strong>Operational Efficiency:</strong> The system automates complex tasks like scheduling, route management, and performance tracking, reducing human error and improving overall operational efficiency.</li>
+                    <li><strong>Sustainability:</strong> By optimizing routes and reducing fuel consumption, the system supports eco-friendly practices, contributing to a reduction in carbon emissions.</li>
+                    <li><strong>Cost Savings:</strong> Efficient scheduling and route optimization lead to cost reductions in terms of fuel, maintenance, and manpower.</li>
+                    <li><strong>Better User Experience:</strong> Real-time tracking, reduced wait times, and more reliable schedules directly enhance the commuter experience, making public transportation a more attractive option.</li>
+                    <li><strong>Scalability:</strong> The system is designed to scale, making it applicable to cities of various sizes and adaptable to future urban transportation needs.</li>
+                </ul>
+            </section>
+
+            <section class="sec">
+                <h2>Future Enhancements</h2>
+                <p>The system is continuously evolving, with planned upgrades and enhancements aimed at further improving its capabilities. Some of the future enhancements include:</p>
+                <ul>
+                    <li><strong>Integration with Autonomous Vehicles:</strong> As autonomous buses become more common, we aim to integrate them into the system for fully automated transport operations.</li>
+                    <li><strong>Passenger Feedback System:</strong> A passenger feedback loop will be incorporated, allowing commuters to provide real-time feedback on bus services, helping operators improve service quality.</li>
+                    <li><strong>AI-Driven Predictive Maintenance:</strong> Predictive maintenance algorithms will be used to monitor the health of buses and equipment, minimizing downtime and improving service reliability.</li>
+                </ul>
+            </section>
+        </main>
+    </div>
+    <footer>
+        <p>&copy; 2024 Automated Bus Routing & Scheduling System by Prashant Kumar Dubey. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

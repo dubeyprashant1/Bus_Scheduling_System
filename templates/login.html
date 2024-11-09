@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <title>Login | Automated Bus Routing & Scheduling System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Navbar styles */
+        nav {
+            background-color: #08423c;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav li {
+            margin: 0 10px;
+            font-weight: bold;
+            position: relative;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* Body and container styles */
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background-color: #d1d1dd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding-top: 25px; /* Space for fixed navbar */
+        }
+
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid #08423c;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 500px;
+            text-align: center;
+        }
+
+        .login-container h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #08423c;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        .tab {
+            padding: 10px 90px;
+            color: rgb(0, 0, 0);
+            border: 2px solid;
+            border-radius: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .tab:hover {
+            background-color:#16694d;
+            color:white;
+        }
+        .tab.active {
+            background-color:#08423c;
+            color:white;
+        }
+
+        .form-section {
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        .login-container input[type="text"], 
+        .login-container input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .login-container input[type="text"]:hover,
+        .login-container input[type="password"]:hover {
+            box-shadow: 0 0 10px #08423c;
+            border-color: #08423c;
+        }
+
+        .login-container button {
+            padding: 10px 100px;
+            margin-top: 10px;
+            background-color: #189168;
+            border: none;
+            color: white;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .login-container button:hover {
+            background-color: #16694d;
+        }
+
+        .login-container .signup-link,
+        .login-container .change_password-link {
+            margin-top: 10px;
+            display: block;
+            color: #08423c;
+            text-decoration: none;
+        }
+
+        .login-container .signup-link:hover,
+        .login-container .change_password-link:hover {
+            text-decoration: underline;
+        }
+       
+        /* Responsive styling */
+        @media (max-width: 600px) {
+            .login-container {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('about_us') }}">About Us</a></li>
+            <li><a href="{{ url_for('contact') }}">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Login Container with Tabs -->
+    <div class="login-container">
+        <h1>Login</h1>
+        
+        <!-- Tabs for Admin and Traveller -->
+        <div class="tabs">
+            <div class="tab active" id="admin-tab">Admin</div>
+            <div class="tab" id="traveller-tab">Traveller</div>
+        </div>
+
+        <!-- Admin Login Form -->
+        <div class="form-section active" id="admin-login">
+            <form id="admin-form" method="POST" action="/dashboard_login" onsubmit="return validateLogin(event, 'admin')">
+                <input type="hidden" name="user_type" value="admin">
+                <input type="text" id="admin-email" name="email" placeholder="Admin Email or ID" required>
+                <input type="password" id="admin-password" name="password" placeholder="Admin Password" required>
+                <button type="submit">Login as Admin</button>
+            </form>
+            <a href="{{ url_for('signup') }}" class="signup-link">Don't have an account? Admin Signup</a>
+            <a href="{{ url_for('forget_password') }}" class="change_password-link">Forget Password?</a>
+        </div>
+
+        <!-- Traveller Login Form -->
+        <div class="form-section" id="traveller-login">
+            <form id="traveller-form" method="POST" action="/dashboard_login" onsubmit="return validateLogin(event, 'traveler')">
+                <input type="hidden" name="user_type" value="traveler">
+                <input type="text" id="traveller-email" name="email" placeholder="Traveller Email or ID" required>
+                <input type="password" id="traveller-password" name="password" placeholder="Traveller Password" required>
+                <button type="submit">Login as Traveller</button>
+            </form>
+            <a href="{{ url_for('signup') }}" class="signup-link">Don't have an account? Traveller Signup</a>
+            <a href="{{ url_for('forget_password') }}" class="change_password-link">Forget Password?</a>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript for tab switching
+        const adminTab = document.getElementById('admin-tab');
+        const travellerTab = document.getElementById('traveller-tab');
+        const adminLogin = document.getElementById('admin-login');
+        const travellerLogin = document.getElementById('traveller-login');
+
+        adminTab.addEventListener('click', () => {
+            adminTab.classList.add('active');
+            travellerTab.classList.remove('active');
+            adminLogin.classList.add('active');
+            travellerLogin.classList.remove('active');
+        });
+
+        travellerTab.addEventListener('click', () => {
+            travellerTab.classList.add('active');
+            adminTab.classList.remove('active');
+            travellerLogin.classList.add('active');
+            adminLogin.classList.remove('active');
+        });
+
+        function validateLogin(event, userType) {
+            event.preventDefault();  // Prevent form submission
+            
+            let email = (userType === 'admin') ? document.getElementById('admin-email').value : document.getElementById('traveller-email').value;
+            let password = (userType === 'admin') ? document.getElementById('admin-password').value : document.getElementById('traveller-password').value;
+            
+            // Perform form validation (optional)
+            if (!email || !password) {
+                alert("Both email and password are required!");
+                return false;
+            }
+        
+            // Prepare data to send
+            let formData = new FormData();
+            formData.append("email", email);
+            formData.append("password", password);
+            formData.append("user_type", userType);
+        
+            // Make an AJAX request to validate credentials against the server
+            fetch('/dashboard_login', {
+                method: 'POST',
+                body: formData // Sending form data
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Redirect to the appropriate dashboard based on the response
+                    window.location.href = data.redirect_url; // Redirect to either /admin_dashboard or /traveller_dashboard
+                } else {
+                    alert(data.error);  // Display error from the server
+                }
+            })
+            .catch(error => alert("An error occurred while trying to log in!"));
+        }
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <title>Terms & Conditions | Automated Bus Routing & Scheduling System</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Style matching the provided theme */
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #d1d1dd;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding-top: 60px;
+        }
+
+        .about-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+            flex: 1;
+        }
+
+        nav {
+            background-color: #08423c;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        nav .left-nav,
+        nav .right-nav {
+            display: flex;
+            align-items: center;
+        }
+
+        nav .left-nav {
+            margin-right: auto;
+        }
+
+        nav .right-nav {
+            margin-left: auto;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav li {
+            margin: 0 10px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            background-color: #189168;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #16694d;
+        }
+
+        header {
+            text-align: center;
+            color: #08423c;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            color: #000000;
+            -webkit-text-stroke: 0.5px #0f875f;
+            text-shadow: 1px 1px 1px;
+            margin-bottom: 20px;
+        }
+
+        .index-link {
+            color: #ffffff;
+            text-decoration: none;
+            background-color: #189168;
+            padding: 8px 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+
+        .index-link:hover {
+            background-color: #16694d;
+        }
+
+        main section {
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            color: #333;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        main section h2 {
+            font-size: 2em;
+            color: black;
+            font-weight: 700;
+            -webkit-text-stroke: 0.5px #0f875f;
+            text-shadow: 1px 1px 1px;
+            margin-bottom: 10px;
+        }
+
+        main section p, main section ul {
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .sec:hover {
+            transform: scale(1.05); /* Slightly scale up on hover */
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add shadow on hover */
+        }
+
+        footer {
+            background-color: #189168;
+            color: black;
+            font-weight:bold;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="left-nav">
+            <ul>
+            </ul>
+        </div>
+        <div class="right-nav">
+            <ul>
+                <li><a href="{{ url_for('signup') }}">Back to Sign Up</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="about-container">
+        <header>
+            <h1>Terms & Conditions</h1>
+        </header>
+
+        <!-- Main Content Section -->
+        <main>
+            <section class="sec">
+                <h2>1. General Use of the System</h2>
+                <p>The Automated Bus Routing & Scheduling System is designed to optimize the scheduling and routing of buses for the Delhi Transport Corporation (DTC). It integrates advanced technologies such as GIS (Geographical Information System), machine learning algorithms, and real-time data analytics to help DTC improve its operational efficiency, reduce traffic congestion, and enhance service quality for commuters.</p>
+                <p>By using this application, you agree to use it solely for legitimate purposes related to bus route management, scheduling, and tracking. Unauthorized access, misuse of the system, or any attempts to disrupt its functionality are strictly prohibited and may result in legal action.</p>
+            </section>
+
+            <section class="sec">
+                <h2>2. User Registration and Account Security</h2>
+                <p>To use certain features of the System, users (bus schedulers, managers, and authorized personnel) may be required to register an account. You are responsible for maintaining the confidentiality of your account details, including your username, password, and any other access credentials. You agree to notify us immediately of any unauthorized access to your account.</p>
+                <p>You are also responsible for ensuring that all information you provide during the registration process is accurate, complete, and up-to-date. Failure to do so may result in restricted access to the application.</p>
+            </section>
+
+            <section class="sec">
+                <h2>3. Data Privacy and Protection</h2>
+                <p>We are committed to protecting your privacy and ensuring the security of your data. Any personal or operational data collected during your use of the System will be used solely for the purposes of providing and improving the service. We will not share, sell, or rent your personal data to third parties without your consent, unless required by law.</p>
+                <p>For more information on how your data is collected, used, and protected, please refer to our Privacy Policy.</p>
+            </section>
+
+            <section class="sec">
+                <h2>4. User Conduct</h2>
+                <p>By using the System, you agree to adhere to the following rules of conduct:</p>
+                <ul>
+                    <li>Do not attempt to interfere with, disrupt, or violate the integrity of the System.</li>
+                    <li>Do not attempt to access any part of the System or its data that you are not authorized to access.</li>
+                    <li>Do not use the System for any unlawful activities, including but not limited to data manipulation, unauthorized data scraping, or attempting to bypass system security measures.</li>
+                </ul>
+                <p>Violations of these conduct rules may result in immediate suspension or termination of your access to the System.</p>
+            </section>
+
+            <section class="sec">
+                <h2>5. System Availability and Maintenance</h2>
+                <p>While we strive to ensure that the System is available 24/7, there may be times when maintenance or updates are required, which could result in temporary unavailability. We will make reasonable efforts to notify users in advance of planned maintenance periods, but we are not liable for any downtime, service interruptions, or any loss of data or functionality caused by these events.</p>
+            </section>
+
+            <section class="sec">
+                <h2>6. Limitations of Liability</h2>
+                <p>The Automated Bus Routing & Scheduling System is provided "as-is" and "as-available." We make no warranties or representations regarding the accuracy, reliability, or completeness of the System or any data provided through it. We are not responsible for any direct, indirect, incidental, or consequential damages that may arise from the use or inability to use the System.</p>
+            </section>
+
+            <section class="sec">
+                <h2>7. Changes to the Terms and Conditions</h2>
+                <p>We reserve the right to update or modify these Terms at any time. Any changes will be effective immediately upon posting on the System’s website. It is your responsibility to review these Terms periodically to stay informed of any updates. Continued use of the System after any modifications to the Terms constitutes your acceptance of the updated Terms.</p>
+            </section>
+
+            <section class="sec">
+                <h2>8. Governing Law and Dispute Resolution</h2>
+                <p>These Terms are governed by and construed in accordance with the laws of India. Any disputes arising from or relating to these Terms shall be resolved through binding arbitration in accordance with the rules of the Indian Arbitration and Conciliation Act, 1996. The venue for arbitration shall be in Delhi, India.</p>
+            </section>
+
+            <section class="sec">
+                <h2>9. Contact Information</h2>
+                <p>If you have any questions or concerns regarding these Terms & Conditions, please contact us at:</p>
+                <p><strong>Delhi Transport Corporation (DTC)</strong><br> Email: <a href="prashantdubey2652020@gmail.com">prashantdubey2652020@gmail.com</a></p>
+            </section>
+
+            <center><a href="{{ url_for('signup') }}" class="index-link">Back to Sign Up</a></center>
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Automated Bus Routing & Scheduling System by Prashant Kumar Dubey. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

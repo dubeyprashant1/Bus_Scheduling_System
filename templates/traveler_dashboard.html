@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <title>Traveler Dashboard | Automated Bus Scheduling System</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #d1d1dd;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding-top: 60px;
+        }
+
+        /* Navbar */
+        nav {
+            background-color: #08423c;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav li {
+            margin: 0 10px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Container */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+            flex: 1;
+        }
+
+        header {
+            text-align: center;
+            color: #08423c;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            color: #000000;
+            -webkit-text-stroke: 0.5px #0f875f;
+            text-shadow: 1px 1px 1px;
+            margin-bottom: 20px;
+        }
+
+        /* Navigation Links */
+        .nav {
+            margin-top: 20px;
+            background-color: #189168;
+            padding: 8px 15px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .nav a {
+            color: #fff;
+            margin-right: 15px;
+            text-decoration: none;
+        }
+
+        .nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* Section Styles */
+        section {
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            color: #333;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        section h2 {
+            font-size: 2em;
+            color: black;
+            font-weight: 700;
+            -webkit-text-stroke: 0.5px #0f875f;
+            text-shadow: 1px 1px 1px;
+            margin-bottom: 10px;
+        }
+
+        section p {
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #189168;
+            color: black;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+    <script>
+        // Logout confirmation
+        function confirmLogout(event) {
+            event.preventDefault();  // Prevent default logout action
+            var confirmAction = confirm("Are you sure you want to log out?");
+            if (confirmAction) {
+                window.location.href = "{{ url_for('login') }}";  // Redirect to login page if confirmed
+            }
+        }
+    </script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav>
+        <div class="left-nav">
+            <ul>
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('about_us') }}">About Us</a></li>
+                <li><a href="{{ url_for('contact') }}">Contact</a></li>
+            </ul>
+        </div>
+        <div class="right-nav">
+            <ul>
+                <li><a href="#" onclick="confirmLogout(event)">Logout</a></li> <!-- Logout with confirmation -->
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Dashboard Container -->
+    <div class="container">
+        <header>
+            <h1>Welcome, {{ traveler_name }}!</h1> <!-- Dynamic Traveler Name -->
+        </header>
+        
+        <p>Hello, Traveler! View your bookings, schedules, and account settings here.</p>
+
+        <div class="nav">
+            <a href="#view_schedules">View Schedules</a>
+            <a href="#my_bookings">My Bookings</a>
+            <a href="#account_settings">Account Settings</a>
+        </div>
+
+        <!-- Section: View Schedules -->
+        <section id="view_schedules">
+            <h2>View Schedules</h2>
+            <p>Check bus schedules and routes available for your travel.</p>
+        </section>
+
+        <!-- Section: My Bookings -->
+        <section id="my_bookings">
+            <h2>My Bookings</h2>
+            <p>View your booking history and upcoming trips.</p>
+        </section>
+
+        <!-- Section: Account Settings -->
+        <section id="account_settings">
+            <h2>Account Settings</h2>
+            <p>Manage your profile, password, and preferences here.</p>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Automated Bus Scheduling System. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

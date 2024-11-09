@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <title>Admin Dashboard | Automated Bus Scheduling System</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #d1d1dd;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding-top: 60px;
+        }
+
+        /* Navbar */
+        nav {
+            background-color: #08423c;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav li {
+            margin: 0 10px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Container */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+            flex: 1;
+        }
+
+        header {
+            text-align: center;
+            color: #08423c;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            color: #000000;
+            -webkit-text-stroke: 0.5px #0f875f;
+            text-shadow: 1px 1px 1px;
+            margin-bottom: 20px;
+        }
+
+        /* Navigation Links */
+        .nav {
+            margin-top: 20px;
+            background-color: #189168;
+            padding: 8px 15px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .nav a {
+            color: #fff;
+            margin-right: 15px;
+            text-decoration: none;
+        }
+
+        .nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* Section Styles */
+        section {
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            color: #333;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        section h2 {
+            font-size: 2em;
+            color: black;
+            font-weight: 700;
+            -webkit-text-stroke: 0.5px #0f875f;
+            text-shadow: 1px 1px 1px;
+            margin-bottom: 10px;
+        }
+
+        section p {
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #189168;
+            font-weight:bold;
+            color: black;
+            text-align: center;
+        }
+
+        /* New Styles for Alerts and Buttons */
+        .alert {
+            background-color: #ffcc00;
+            color: #333;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .button {
+            background-color: #08423c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .button:hover {
+            background-color: #0f875f;
+        }
+
+        /* Modal Form Styling */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .modal-content form input,
+        .modal-content form select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .modal-content form button {
+            background-color: #08423c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .modal-content form button:hover {
+            background-color: #0f875f;
+        }
+    </style>
+    <script>
+        // Show modal for Add Schedule
+        function showAddScheduleForm() {
+            document.getElementById('addScheduleModal').style.display = 'flex';
+        }
+
+        // Show modal for Update Schedule
+        function showUpdateScheduleForm() {
+            document.getElementById('updateScheduleModal').style.display = 'flex';
+        }
+
+        // Show modal for Delete Schedule
+        function showDeleteScheduleForm() {
+            document.getElementById('deleteScheduleModal').style.display = 'flex';
+        }
+
+        function showUpdate2ScheduleForm() {
+            document.getElementById('update2ScheduleModal').style.display = 'flex';
+        }
+
+        // Show modal for Delete Schedule
+        function showDelete2ScheduleForm() {
+            document.getElementById('delete2ScheduleModal').style.display = 'flex';
+        }
+
+        // Close Modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Validate and process schedule
+        // Process Add Schedule (Validate and handle)
+        function processAddSchedule() {
+            var crewId = document.getElementById('crew-id').value;
+            var busId = document.getElementById('bus-id').value;
+            var schedulingType = document.getElementById('scheduling').value;
+            var departureTime = document.getElementById('timing').value;
+            var emergency = document.getElementById('emergency').value;
+            var route = document.getElementById('route').value;
+
+            var currentTime = new Date();
+            var departureDate = new Date(departureTime);
+
+            // Check if departure time is in the future
+            if (departureDate <= currentTime) {
+                alert("Departure time must be a future date.");
+                return false;
+            }
+
+            // Make an AJAX call to validate the Bus ID and Crew ID
+            fetch('/validate_schedule', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    crew_id: crewId,
+                    bus_id: busId,
+                    departure_time: departureTime,
+                    scheduling_type: schedulingType,
+                    emergency: emergency,
+                    route: route
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "error") {
+                    alert(data.message);
+                } else {
+                    // Proceed with adding schedule (send request to backend)
+                    alert("Schedule added successfully!");
+                    closeModal('addScheduleModal');
+                }
+            })
+            .catch(error => {
+                alert("An error occurred. Please try again.");
+            });
+
+            return false;
+        }
+
+        // Process Update Schedule (Validate and handle)
+        function processUpdateSchedule() {
+            alert("Schedule updated successfully!");
+            closeModal('update2ScheduleModal');
+            closeModal('updateScheduleModal');
+        }
+
+        // Process Delete Schedule (Validate and handle)
+        function processDeleteSchedule() {
+            alert("Schedule deleted successfully!");
+            closeModal('delete2ScheduleModal');
+            closeModal('deleteScheduleModal');
+        }
+    </script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav>
+        <div class="left-nav">
+            <ul>
+                <li><a href="#" onclick="confirmLogouttoindex(event)">Home</a></li>
+                <li><a href="{{ url_for('crew_management') }}">Crew Management</a></li>
+                <li><a href="{{ url_for('bus_management') }}">Manage Buses</a></li>
+                <li><a href="{{ url_for('about_us') }}">About Us</a></li>
+                <li><a href="{{ url_for('contact') }}">Contact</a></li>
+            </ul>
+        </div>
+        <div class="right-nav">
+            <ul>
+                <li><a href="#" onclick="confirmLogout(event)">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Dashboard Container -->
+    <div class="container">
+        <header>
+            <h1>Welcome, {{ admin_name }}!</h1>
+        </header>
+
+        <p>Hello, Admin! Manage bus schedules, routes, and view reports here.</p>
+
+        <div class="nav">
+            <a href="#manage_schedules" onclick="showAddScheduleForm()">Manage Schedules</a>
+            <a href="#view_reports">View Reports</a>
+            <a href="#manage_users">Manage Users</a>
+        </div>
+
+        <!-- Section: Manage Schedules -->
+        <section id="manage_schedules">
+            <h2>Manage Schedules</h2>
+            <button class="button" onclick="showAddScheduleForm()">Add Schedule</button>
+            <button class="button" onclick="showUpdateScheduleForm()">Update Schedule</button>
+            <button class="button" onclick="showDeleteScheduleForm()">Delete Schedule</button>
+        </section>
+
+        <!-- Modals for Add, Update, Delete -->
+        <!-- Add Schedule Modal -->
+        <div id="addScheduleModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('addScheduleModal')">&times;</span>
+                <h2>Add New Schedule</h2>
+                <form action="#" onsubmit="return processAddSchedule()">
+                    <label for="crew-id">Crew ID:</label>
+                    <input type="text" id="crew-id" name="crew_id" required>
+
+                    <label for="bus-id">Bus ID:</label>
+                    <input type="text" id="bus-id" name="bus_id" required>
+
+                    <label for="timing">Departure Timing:</label>
+                    <input type="time" id="timing" name="timing" required>
+
+                    <label for="route">Route:</label>
+                    <input type="text" id="route" name="route" required>
+
+                    <label for="scheduling">Scheduling Type:</label>
+                    <select id="scheduling" name="scheduling">
+                        <option value="">Select</option>
+                        <option value="Unlinked">Unlinked Duty Scheduling</option>
+                        <option value="Linked">Linked Duty Scheduling</option>
+                    </select>
+
+                    <label for="emergency">Emergency Scheduling:</label>
+                    <select id="emergency" name="emergency">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                    <div>
+                        <button type="reset">Reset</button>
+                        <button type="submit">Send Schedule</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Update Schedule Modal -->
+        <div id="updateScheduleModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('updateScheduleModal')">&times;</span>
+                <h2>Update Schedule</h2>
+                <form action="#">
+                    <label for="id_type">ID Type:</label>
+                    <select id="id_type" name="id_type">
+                        <option value="">Select</option>
+                        <option value="bus">Bus Id</option>
+                        <option value="crew">Crew ID</option>
+                    </select>
+                    <label for="selected-id">Selected ID:</label>
+                    <input type="text" id="selected-id" name="selected_id" required>
+                    <button class="button" onclick="showUpdate2ScheduleForm()">Open Schedule</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="update2ScheduleModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('update2ScheduleModal')">&times;</span>
+                <h2>Update Schedule</h2>
+                <form action="#" onsubmit="return processUpdateSchedule()">
+                    <label for="id_type">ID Type:</label>
+                    <select id="id_type" name="id_type">
+                        <option value="">Select</option>
+                        <option value="bus">Bus Id</option>
+                        <option value="crew">Crew ID</option>
+                    </select>
+                    <label for="selected-id">Selected ID:</label>
+                    <input type="text" id="selected-id" name="selected_id" required>
+                    <div>
+                        <button type="reset">Reset</button>
+                        <button type="submit">Update Schedule</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Delete Schedule Modal -->
+        <div id="deleteScheduleModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('deleteScheduleModal')">&times;</span>
+                <h2>Delete Schedule</h2>
+                <form action="#" onsubmit="return processDeleteSchedule()">
+                    <label for="id_type">ID Type:</label>
+                    <select id="id_type" name="id_type">
+                        <option value="">Select</option>
+                        <option value="bus">Bus Id</option>
+                        <option value="crew">Crew ID</option>
+                    </select>
+                    <label for="selected-id">Selected ID:</label>
+                    <input type="text" id="selected-id" name="selected_id" required>
+                    <button class="button" onclick="showDelete2ScheduleForm()">Open Schedules</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="delete2ScheduleModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('delete2ScheduleModal')">&times;</span>
+                <h2>Delete Schedule</h2>
+                <form action="#" onsubmit="return processDeleteSchedule()">
+                    <label for="id_type">ID Type:</label>
+                    <select id="id_type" name="id_type">
+                        <option value="">Select</option>
+                        <option value="bus">Bus Id</option>
+                        <option value="crew">Crew ID</option>
+                    </select>
+                    <label for="selected-id">Selected ID:</label>
+                    <input type="text" id="selected-id" name="selected_id" required>
+                    <div>
+                        <button type="reset">Reset</button>
+                        <button type="submit">Delete Schedule</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

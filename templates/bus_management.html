@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <title>Manage Buses | Automated Bus Scheduling System</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #d1d1dd;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding-top: 60px;
+        }
+        
+        nav {
+            background-color: #08423c;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        nav li {
+            margin: 0 10px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+            flex: 1;
+        }
+
+        header {
+            text-align: center;
+            color: #08423c;
+        }
+        header h1 {
+            font-size: 2.5em;
+            color: #000000;
+            -webkit-text-stroke: 0.5px #0f875f;
+            text-shadow: 1px 1px 1px;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #08423c;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .search-bar {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: flex-start;
+            gap: 10px;
+        }
+
+        .search-bar input {
+            padding: 10px;
+            font-size: 1em;
+            width: 250px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* Mini Form (for Manual Assignment) */
+        .manual-assignment-form {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1001;
+            width: 400px;
+        }
+
+        .manual-assignment-form h2 {
+            margin-top: 0;
+            font-size: 1.5em;
+            color: #08423c;
+        }
+
+        .manual-assignment-form input,
+        .manual-assignment-form select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .manual-assignment-form button {
+            padding: 10px 20px;
+            background-color: #08423c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .manual-assignment-form button:hover {
+            background-color: #0f875f;
+        }
+
+        .close-form {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #888;
+        }
+
+        .pagination-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .pagination-controls select, .pagination-controls button {
+            padding: 8px;
+            margin: 0 5px;
+        }
+
+        .pagination-controls button {
+            cursor: pointer;
+        }
+
+        footer {
+            background-color: #189168;
+            font-weight: bold;
+            color: black;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+    <script>
+        let busData = {{ bus_data | tojson }};
+        let currentPage = 1;
+        let recordsPerPage = 20;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderBusTable();
+        });
+
+        function renderBusTable() {
+            const tbody = document.querySelector('table tbody');
+            tbody.innerHTML = '';
+            const start = (currentPage - 1) * recordsPerPage;
+            const end = start + recordsPerPage;
+            const paginatedData = busData.slice(start, end);
+
+            paginatedData.forEach(bus => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${bus.bus_id}</td>
+                        <td>${bus.route}</td>
+                        <td>${bus.status}</td>
+                        <td>${bus.assigned_crew}</td>
+                        <td>${bus.next_departure}</td>
+                        <td>${bus.arrival_time}</td>
+                        <td>${bus.schedule}</td>
+                        <td><a href="#" onclick="showAssignmentForm(${bus.bus_id})">Schedule Manually</a></td>
+                    </tr>
+                `;
+            });
+        }
+
+        function setRecordsPerPage(value) {
+            recordsPerPage = parseInt(value);
+            currentPage = 1;
+            renderBusTable();
+        }
+
+        function nextPage() {
+            if (currentPage * recordsPerPage < busData.length) {
+                currentPage++;
+                renderBusTable();
+            }
+        }
+
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                renderBusTable();
+            }
+        }
+
+        function confirmLogout(event) {
+            event.preventDefault();
+            var confirmAction = confirm("Are you sure you want to log out?");
+            if (confirmAction) {
+                window.location.href = "{{ url_for('login') }}";
+            }
+        }
+
+        function confirmLogouttoindex(event) {
+            event.preventDefault();
+            var confirmAction = confirm("You will be logged out, Are you sure?");
+            if (confirmAction) {
+                window.location.href = "{{ url_for('index') }}";
+            }
+        }
+
+        function showAssignmentForm(crewId) {
+            document.getElementById('manual-assignment-form').style.display = 'block';
+            document.getElementById('bus-id').value = busId; // Pre-fill the crew id
+        }
+
+        function closeAssignmentForm() {
+            document.getElementById('manual-assignment-form').style.display = 'none';
+        }
+
+        function filterBus() {
+            const searchInput = document.getElementById('search-input').value.toLowerCase();
+            const rows = document.querySelectorAll('table tbody tr');
+            
+            rows.forEach(row => {
+                const crewId = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+                const name = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                if (crewId.includes(searchInput) || name.includes(searchInput)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+    </script>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="#" onclick="confirmLogouttoindex(event)">Home</a></li>
+            <li><a href="{{ url_for('admin_dashboard') }}">Admin Dashboard</a></li>
+            <li><a href="{{ url_for('about_us') }}">About Us</a></li>
+            <li><a href="{{ url_for('contact') }}">Contact</a></li>
+        </ul>
+        <ul>
+            <li><a href="#" onclick="confirmLogout(event)">Logout</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1>Manage Buses</h1>
+        </header>
+
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Search by Bus ID or Route" onkeyup="filterBus()">
+        </div>
+
+        <div class="pagination-controls">
+            <label for="recordsPerPage">Show:</label>
+            <select id="recordsPerPage" onchange="setRecordsPerPage(this.value)">
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="80">80</option>
+                <option value="100">100</option>
+            </select>
+            <button onclick="prevPage()">Previous</button>
+            <button onclick="nextPage()">Next</button>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Bus ID</th>
+                    <th>Route</th>
+                    <th>Status</th>
+                    <th>Assigned Crew</th>
+                    <th>Next Departure</th>
+                    <th>Arrival Time</th>
+                    <th>Schedules</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <!-- Manual Assignment Form (hidden initially) -->
+    <div id="manual-assignment-form" class="manual-assignment-form">
+        <span class="close-form" onclick="closeAssignmentForm()">&times;</span>
+        <h2>Manual Bus Scheduling</h2>
+        <form action="#">
+            <label for="crew-id">Crew ID:</label>
+            <input type="text" id="crew-id" name="crew_id" required>
+
+            <label for="timing">Departure Timing:</label>
+            <input type="time" id="timing" name="timing" required>
+
+            <label for="route">Route:</label>
+            <input type="text" id="route" name="route" required>
+
+            <label for="scheduling">Scheduling Type:</label>
+            <select id="scheduling" name="scheduling">
+                <option value="">Select</option>
+                <option value="No">Unlinked Duty Scheduling</option>
+                <option value="Yes">Linked Duty Scheduling</option>
+            </select>
+
+            <label for="emergency">Emergency Scheduling:</label>
+            <select id="emergency" name="emergency">
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+            </select>
+
+            <div>
+                <button type="reset">Reset</button>
+                <button type="submit">Send Schedule</button>
+            </div>
+        </form>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Automated Bus Scheduling System. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

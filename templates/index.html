@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <title>Automated Bus Routing & Scheduling System</title>
+
+    <!-- Embedded CSS -->
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #d1d1dd;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensures the footer stays at the bottom */
+        }
+
+        header {
+            background-color: #08423c;
+            width: 100%;
+            color: white;
+            padding: 10px 0;
+        }
+
+        header nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-weight: 700; /* Bold for the header */
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+            padding: 8px 15px;
+            background-color: #189168;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-links a:hover {
+            background-color: #16694d;
+        }
+
+        main {
+            padding: 20px;
+            flex: 1; /* Allow main to grow and push footer down */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center content */
+        }
+
+        .intro {
+            margin-top: 40px;
+            margin-bottom: 40px;
+            color: #333; /* Darker color for better readability */
+            font-weight: 400; /* Regular weight for intro text */
+            text-align: center;
+        }
+
+        .intro h2 {
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            color: black;
+            -webkit-text-stroke: 0.7px #0f875f;
+            text-shadow: 1px 1px 1px;
+        }
+
+        .intro p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .actions a {
+            text-decoration: none;
+            padding: 12px 30px;
+            margin: 0 10px;
+            border-radius: 5px;
+            font-size: 1.1em;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background-color: #2fb54e;
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: #189168;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #16694d;
+        }
+
+        .btn-secondary:hover {
+            background-color: #16694d;
+        }
+
+        .features {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 12px;
+            color: #333;
+            width: 100%; /* Full width */
+            max-width: 1000px; /* Max width for better readability */
+            display: grid;
+            place-items: center;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Added transition for hover effects */
+        }
+
+        .features:hover {
+            transform: scale(1.05); /* Slightly scale up on hover */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+        }
+
+        .features h3 {
+            margin: 10px;
+            font-size: 2.5em;
+            font-weight: 700; /* Bold for the feature title */
+            -webkit-text-stroke: 0.7px #0f875f;
+            color: black;
+            text-shadow: 0.8px 0.8px 0.8px;
+            text-align: center;
+        }
+        footer {
+            size:1px;
+            background-color: #189168;
+            color: black;
+            font-weight:bold;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">
+                <h1>Automated Bus Routing and Scheduling System</h1>
+            </div>
+            <div class="nav-links">
+                <a href="{{ url_for('about_us') }}" class="about-us-link">About us</a>
+                <a href="{{ url_for('login') }}" class="btn">Login</a>
+                <a href="{{ url_for('signup') }}" class="btn">Sign Up</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <section class="intro">
+            <h2>Welcome to the Automated Bus Routing and Scheduling System</h2>
+            <div class="actions">
+                <a href="{{ url_for('signup') }}" class="btn-primary">Get Started</a>
+                <a href="{{ url_for('login') }}" class="btn-secondary">Already have an account? Login</a>
+            </div>
+        </section>
+
+        <section class="features">
+            <h3>Features</h3>
+            <p>The Automated Bus Scheduling and Route Management System will utilize Algorithms, data analytics, 
+                and geographic information system (GIS) technologies to automate various aspects of bus scheduling 
+                and route management. The system will potentially include (but not limited to) features such as: 
+                Linked Duty Scheduling: Assign a specific crew to a bus at the start of their duty, ensuring they 
+                remain with the bus throughout their shift.Map all existing routes and provide a visual representation 
+                of the bus network. Enable users to draw new routes and automatically highlight overlaps with existing
+                routes.</p>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Automated Bus Routing & Scheduling System by Prashant Kumar Dubey. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>
